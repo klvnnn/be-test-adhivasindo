@@ -27,4 +27,17 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+
+    //handle uanauthorized response
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'message' => 'Anda harus login terlebih dahulu.'
+            ], 401);
+        }
+
+        return parent::render($request, $exception);
+    }
 }

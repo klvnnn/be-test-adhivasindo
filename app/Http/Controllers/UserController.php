@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Http;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -10,63 +11,44 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getAll()
     {
-        $user = User::get()->all();
-        return response()->json([
-            'status' => 'Successfully get all users',
-            'data' => $user,
-        ],200);
+        try {
+            // Request ke API lain
+            $response = Http::get('https://ogienurdiana.com/career/ecc694ce4e7f6e45a5a7912cde9fe131');
+
+            // Cek apakah request berhasil
+            if ($response->successful()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $response->json()
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to fetch data'
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Exception: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    //search by name
+    public function getByName(){
+
+    }
+    
+    //search by nim
+    public function getByNim(){
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    //filtering by date
+    public function getByDate(){
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Request $request)
-    {
-        return response()->json([
-            'message' => 'get user profile',
-            'data' => $request->user(),
-        ],200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
