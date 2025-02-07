@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $user = User::get()->all();
         return response()->json([
-            'message' => 'get all users',
+            'status' => 'Successfully get all users',
             'data' => $user,
         ],200);
     }
@@ -38,9 +38,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        return response()->json([
+            'message' => 'get user profile',
+            'data' => $request->user(),
+        ],200);
     }
 
     /**
