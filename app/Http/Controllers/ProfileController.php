@@ -82,7 +82,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
         $user = auth()->user();
         $user->tokens()->delete();
